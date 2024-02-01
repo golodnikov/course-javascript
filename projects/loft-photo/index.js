@@ -1,15 +1,13 @@
 const photos = require('./photos.json');
 const friends = require('./friends.json');
 
-console.log(friends);
-console.log(photos);
 function getRandomElement(array) {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
 
 const fruits = ['банан', 'яблоко', 'груша', 'ананас'];
-console.log(getRandomElement(fruits));
+getRandomElement(fruits);
 
 function getNextPhoto() {
   const user = getRandomElement(friends);
@@ -19,4 +17,4 @@ function getNextPhoto() {
     url: getRandomElement(Object.assign(photos)[idxFriends]).url,
   };
 }
-console.log(getNextPhoto());
+getNextPhoto();
