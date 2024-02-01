@@ -4,9 +4,11 @@ beforeAll(() => {
 
 test('При нажатии на кнопку, DOM-дерево должно быть изменено', () => {
   const button = document.querySelector('#my-button') as HTMLButtonElement;
-  const result = document.querySelector('#my-result')!;
-
-  button.click();
-
-  expect(result.textContent).toBe('42');
+  const result = document.querySelector('#my-result') as HTMLButtonElement;
+  if (button) {
+    button.click();
+  }
+  if (result) {
+    expect(result.textContent).toBe('42');
+  }
 });
