@@ -6,9 +6,6 @@ function getRandomElement(array) {
   return array[randomIndex];
 }
 
-const fruits = ['банан', 'яблоко', 'груша', 'ананас'];
-getRandomElement(fruits);
-
 function getNextPhoto() {
   const user = getRandomElement(friends);
   const idxFriends = friends.indexOf(user);
