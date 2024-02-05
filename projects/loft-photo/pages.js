@@ -1,3 +1,5 @@
+// import model from './model';
+
 const pagesMap = {
   login: '.page-login',
   main: '.page-main',
