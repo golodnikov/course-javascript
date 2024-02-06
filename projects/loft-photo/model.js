@@ -1,9 +1,8 @@
-import VK from 'some-vk-library';
-
 const PERM_FRIENDS = 2;
 const PERM_PHOTOS = 4;
-const APP_ID = 51849252;
+const APP_ID = 51849643;
 
+const VK = window.VK;
 export default {
   getRandomElement(array) {
     if (!array.length) {
@@ -16,7 +15,7 @@ export default {
   },
   async getNextPhoto() {
     const friend = this.getRandomElement(this.friends.items);
-    const photos = await this.getFriendPhoto(friend.id);
+    const photos = await this.getFriendPhotos(friend.id);
     const photo = this.getRandomElement(photos.items);
     const size = this.findSize(photo);
 
@@ -58,7 +57,7 @@ export default {
   login() {
     return new Promise((resolve, reject) => {
       VK.init({
-        app_id: APP_ID,
+        apiId: APP_ID,
       });
 
       VK.Auth.login((response) => {
