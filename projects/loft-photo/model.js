@@ -40,20 +40,6 @@ export default {
     this.friends = await this.getFriends();
     [this.me] = await this.getUsers();
   },
-  getFriends() {
-    const params = {
-      fields: ['photo_50', 'photo_100'],
-    };
-
-    return this.callApi('friends.get', params);
-  },
-  getPhotos(owner) {
-    const params = {
-      owner_id: owner,
-    };
-
-    return this.callApi('photos.getAll', params);
-  },
   login() {
     return new Promise((resolve, reject) => {
       VK.init({
@@ -73,9 +59,9 @@ export default {
   logout() {
     return new Promise((resolve) => VK.Auth.revokeGrants(resolve));
   },
-
   callApi(method, params) {
     params.v = params.v || '5.120';
+
     return new Promise((resolve, reject) => {
       VK.api(method, params, (response) => {
         if (response.error) {
@@ -87,8 +73,23 @@ export default {
     });
   },
 
+  getFriends() {
+    const params = {
+      fields: ['photo_50', 'photo_100'],
+    };
+
+    return this.callApi('friends.get', params);
+  },
+  getPhotos(owner) {
+    const params = {
+      owner_id: owner,
+    };
+
+    return this.callApi('photos.getAll', params);
+  },
+
   async getFriendPhotos(id) {
-    let photos = this.photoCache(id);
+    let photos = this.photoCache[id];
 
     if (photos) {
       return photos;

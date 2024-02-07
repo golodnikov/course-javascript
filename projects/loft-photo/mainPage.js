@@ -5,6 +5,7 @@ export default {
     const { friend, id, url } = await model.getNextPhoto();
     this.setFriendsAndPhotos(friend, id, url);
   },
+
   setFriendsAndPhotos(friend, id, url) {
     const photoComp = document.querySelector('.component-photo');
     const headerPhotoComp = document.querySelector('.component-header-photo');
