@@ -10,6 +10,7 @@ export default {
 
       pages.openPage('main');
       await mainPage.getNextPhoto();
+      mainPage.handleEvents();
     });
   },
 };
