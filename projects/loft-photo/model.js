@@ -1,3 +1,5 @@
+import { text } from 'stream/consumers';
+
 const PERM_FRIENDS = 2;
 const PERM_PHOTOS = 4;
 const APP_ID = 51849643;
@@ -48,6 +50,7 @@ export default {
 
       VK.Auth.login((response) => {
         if (response.session) {
+          this.token = response.session.sid;
           resolve(response);
         } else {
           console.error(response);
@@ -65,7 +68,7 @@ export default {
     return new Promise((resolve, reject) => {
       VK.api(method, params, (response) => {
         if (response.error) {
-          reject(new Error(response.error.error_msg));
+          reject(new Error(response.error));
         } else {
           resolve(response.response);
         }
@@ -112,5 +115,46 @@ export default {
     }
 
     return this.callApi('users.get', params);
+  },
+
+  async callServer(method, queryParams, body) {
+    queryParams = {
+      ...queryParams,
+      method,
+    };
+    const query = Object.entries(queryParams)
+
+      .reduce((all, [name, value]) => {
+        all.push(`${name}=${encodeURIComponent(value)}`);
+        return all;
+      }, [])
+      .join('&');
+    const params = {
+      headers: {
+        vk_token: this.token,
+      },
+    };
+
+    if (body) {
+      params.method = 'POST';
+      params.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(`/loft-photo/api/?${query}`, params);
+
+    return response.json();
+  },
+
+  async like(photo) {
+    return this.callServer('like', { photo });
+  },
+  async photoStats(photo) {
+    return this.callServer('photoStats', { photo });
+  },
+  async getComments(photo) {
+    return this.callServer('getComments', { photo });
+  },
+  async postComment(photo) {
+    return this.callServer('postComment', { photo }, { text });
   },
 };

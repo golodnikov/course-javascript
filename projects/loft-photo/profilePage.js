@@ -19,10 +19,15 @@ export default {
     for (const photo of photos.items) {
       const size = model.findSize(photo);
       const element = document.createElement('div');
+      const photoStats = await model.photoStats(size.id);
 
       element.classList.add('component-user-photo');
       element.dataset.id = photo.id;
       element.style.backgroundImage = `url(${size.url})`;
+      element.addEventListener('click', () => {
+        mainPage.setFriendsAndPhotos(this.user, parseInt(size.id), size.url, photoStats);
+        pages.openPage('main');
+      });
       photosComp.append(element);
     }
   },
@@ -31,7 +36,7 @@ export default {
     document
       .querySelector('.component-user-photos')
       .addEventListener('click', async (e) => {
-        if (e.target.classList.contains('.component-user-photos')) {
+        if (e.target.classList.contains('component-user-photos')) {
           const photoId = e.target.dataset.id;
           const friendsPhotos = await model.getPhotos(this.user.id);
           const photo = friendsPhotos.items.find((photo) => photo.id === photoId);
