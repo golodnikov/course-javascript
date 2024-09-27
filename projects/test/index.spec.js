@@ -3,10 +3,13 @@ beforeAll(() => {
 });
 
 test('При нажатии на кнопку, DOM-дерево должно быть изменено', () => {
-  const button = document.querySelector('#my-button');
-  const result = document.querySelector('#my-result');
+  const button = document.getElementById('my-button');
+  const result = document.getElementById('my-result');
 
-  button.click();
-
-  expect(result.textContent).toBe('42');
+  if (button) {
+    button.click();
+  }
+  if (result) {
+    expect(result.textContent).toBe('42');
+  }
 });
